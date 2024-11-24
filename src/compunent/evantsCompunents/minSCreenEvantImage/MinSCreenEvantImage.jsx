@@ -1,36 +1,50 @@
 import { useState } from 'react'
 import { PhotoSlider } from 'react-photo-view'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
 
+// Import Swiper styles
 import 'swiper/css';
+import './a.css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+
+
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+
 
 const MinSCreenEvantImage = ({ images }) => {
     const [visible, setVisible] = useState(false);
     const [index, setIndex] = useState(0);
     return (
         <div
-            className="md:hidden"
+            className="md:hidden w-full"
         >
             <>
                 <Swiper
+                    effect={'coverflow'}
+                    grabCursor={true}
+                    centeredSlides={true}
+                    slidesPerView={'auto'}
+                    coverflowEffect={{
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true,
+                    }}
+                    pagination={true}
+                    modules={[EffectCoverflow, Pagination]}
                     className="mySwiper"
-                    navigation={true}
-                    modules={[Navigation]}
                 >
-                    {images.map((e, i) => (
-                        <SwiperSlide
-                            key={i}>
+                    {images.map((image, index) => (
+                        <SwiperSlide key={index}>
                             <img
-                                onClick={() => {
-                                    setVisible(true)
-                                    setIndex(i)
-                                }}
-                                className='w-11/12 mx-auto h-[200px]'
-                                src={e} />
+                                className='w-full h-full'
+                                src={image} />
                         </SwiperSlide>
-                    ))}
 
+                    ))}
 
                 </Swiper>
             </>
