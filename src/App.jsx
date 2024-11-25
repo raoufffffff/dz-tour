@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div
-      className='w-full overflow-hidden'
+      className='w-full overflow-hidden bg-white'
     >
       <Header />
       <div

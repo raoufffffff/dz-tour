@@ -4,13 +4,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import './a.css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import 'swiper/css/effect-creative';
 
+import './a.css';
 
 // import required modules
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { EffectCreative } from 'swiper/modules';
 
 
 const MinSCreenEvantImage = ({ images }) => {
@@ -22,24 +21,27 @@ const MinSCreenEvantImage = ({ images }) => {
         >
             <>
                 <Swiper
-                    effect={'coverflow'}
                     grabCursor={true}
-                    centeredSlides={true}
-                    slidesPerView={'auto'}
-                    coverflowEffect={{
-                        rotate: 50,
-                        stretch: 0,
-                        depth: 100,
-                        modifier: 1,
-                        slideShadows: true,
+                    effect={'creative'}
+                    creativeEffect={{
+                        prev: {
+                            shadow: true,
+                            translate: [0, 0, -400],
+                        },
+                        next: {
+                            translate: ['100%', 0, 0],
+                        },
                     }}
-                    pagination={true}
-                    modules={[EffectCoverflow, Pagination]}
+                    modules={[EffectCreative]}
                     className="mySwiper"
                 >
                     {images.map((image, index) => (
                         <SwiperSlide key={index}>
                             <img
+                                onClick={() => {
+                                    setVisible(true)
+                                    setIndex(index)
+                                }}
                                 className='w-full h-full'
                                 src={image} />
                         </SwiperSlide>

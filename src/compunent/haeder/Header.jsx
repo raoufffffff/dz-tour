@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <header
 
-            className='flex justify-between items-center px-6 lg:px-10 py-5 shadow-lg '
+            className='flex justify-between items-center px-6 lg:px-10 py-5 shadow-xl '
         >
             <Link
                 className='flex items-center text-xl lg:text-3xl hover:-rotate-2 transition-all hover:scale-105'

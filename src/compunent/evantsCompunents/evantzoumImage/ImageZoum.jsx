@@ -12,7 +12,7 @@ const ImageZoum = ({ images }) => {
                 {images.map((item, index) => (
                     <PhotoView key={index} src={item}>
                         <img
-                            className='w-[32%] rounded-lg my-2'
+                            className='w-[32%] lg:w-[28%] rounded-lg my-2'
                             src={item} alt="" />
                     </PhotoView>
                 ))}
