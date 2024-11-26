@@ -3,7 +3,7 @@ import React from 'react'
 const SideTitel = ({ titel, icon }) => {
     return (
         <span
-            className='text-xl flex items-center'
+            className='text-2xl font-bold mb-3 flex items-center'
         >
             {icon}
             {titel}

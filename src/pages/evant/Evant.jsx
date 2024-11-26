@@ -41,7 +41,7 @@ const Evant = () => {
     if (err) return <h1>err</h1>
     return (
         <div
-            className='w-full overflow-hidden px-5 capitalize  py-3'
+            className='w-full overflow-hidden px-5 capitalize pb-[60px]  py-3'
         >
 
             <h1
@@ -57,18 +57,22 @@ const Evant = () => {
                 <div
                     className='w-full md:w-4/12 md:px-3 mb-5'
                 >
-                    <SideTitel titel={"Réservation"} />
                     <div
-                        className='border-2 rounded-xl py-3 font-bold border-[#16b6b4] bg-[#16b6b41f] text-[#2e3a59] sm:w-6/12 w-9/12 md:w-11/12 mx-auto mt-5 flex flex-col items-center lowercase'
+                        className='hidden md:flex'
+                    >
+                        <SideTitel titel={"Réservation"} />
+                    </div>
+                    <div
+                        className='border-2 md:rounded-xl fixed bottom-0 left-0 py-1.5 md:py-3 font-bold border-cyan-600 bg-cyan-500 md:bg-[#16b6b41f] flex md:flex-col text-white md:text-[#2e3a59] w-full md:relative md:w-11/12 mx-auto md:mt-5 px-2   items-center lowercase'
                     >
                         <h2
-                            className='text-xl'
+                            className='md:text-xl'
                         >Prix à partir de :</h2>
                         <strong
-                            className='text-xl capitalize my-3'
+                            className='md:text-xl ml-2 capitalize my-3'
                         >{evant.price} Da</strong>
                         <button
-                            className='bg-[#16b6b4] text-white rounded-lg text-lg  px-5 py-2'
+                            className='bg-cyan-600 text-white rounded-lg text-lg ml-auto md:mx-auto  px-5 py-2'
                         >
                             Réserver
                         </button>
@@ -81,9 +85,12 @@ const Evant = () => {
                     <p
                         className='my-2'
                     >{evant.des}</p>
+                    <div
+                        className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                    ></div>
                     <SideTitel
                         titel={"Détails du séjour"}
-                        icon={<BsCalendarDate className='mr-2' />}
+                        icon={<BsCalendarDate className='mr-2 text-gray-600' />}
                     />
                     <ul
                         className='list-disc pl-5'
@@ -107,9 +114,12 @@ const Evant = () => {
                             <strong>Hébergement</strong> : <span>{evant.hotel}</span>
                         </li>
                     </ul>
+                    <div
+                        className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                    ></div>
                     <SideTitel
                         titel={"Programme"}
-                        icon={<BsChatRightText className='mr-2' />}
+                        icon={<BsChatRightText className='mr-2 text-amber-600' />}
                     />
                     <div>
                         {evant.program.map((e, i) => (
@@ -129,9 +139,12 @@ const Evant = () => {
                             </div>
                         ))}
                     </div>
+                    <div
+                        className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                    ></div>
                     <SideTitel
                         titel={"Inclus dans l’offre :"}
-                        icon={<BsCheck2 className='mr-2' />}
+                        icon={<BsCheck2 size={30} className='mr-2 text-red-600' />}
                     />
                     <ul
                         className='list-disc pl-10'
@@ -140,9 +153,12 @@ const Evant = () => {
                             <li key={i}>{e}</li>
                         ))}
                     </ul>
+                    <div
+                        className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                    ></div>
                     <SideTitel
                         titel={"Tarifs :"}
-                        icon={<SiCashapp className="mr-2" />}
+                        icon={<SiCashapp className="mr-2 text-green-600" />}
                     />
                     <ul
                         className='list-disc pl-10'
@@ -153,9 +169,7 @@ const Evant = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
     )
 }

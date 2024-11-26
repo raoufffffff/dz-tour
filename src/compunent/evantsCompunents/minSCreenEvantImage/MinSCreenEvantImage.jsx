@@ -42,7 +42,7 @@ const MinSCreenEvantImage = ({ images }) => {
                                     setVisible(true)
                                     setIndex(index)
                                 }}
-                                className='w-full h-full'
+                                className='w-full h-full rounded-xl'
                                 src={image} />
                         </SwiperSlide>
 

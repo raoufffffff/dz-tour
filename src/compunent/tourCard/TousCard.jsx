@@ -8,7 +8,7 @@ const TousCard = ({ tour }) => {
         <>
             <Link
                 to={`/evant/${tour._id}`}
-                className='w-[45%] md:w-3/12 my-2 shadow-2xl bg-[#eeea] capitalize'
+                className='min-w-[200px] md:min-w-[250px] mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize'
             >
                 <img src={tour.imgs[0]}
                     className='h-[150px] rounded-xl w-full'
@@ -30,9 +30,10 @@ const TousCard = ({ tour }) => {
                         {tour.price} da</p>
 
                 </div>
-            </Link> <Link
+            </Link>
+            <Link
                 to={`/evant/${tour._id}`}
-                className='w-[45%] md:w-3/12 my-2 shadow-2xl bg-[#eeea] capitalize'
+                className='min-w-[200px] md:min-w-[250px] mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize'
             >
                 <img src={tour.imgs[1]}
                     className='h-[150px] rounded-xl w-full'
@@ -55,7 +56,6 @@ const TousCard = ({ tour }) => {
 
                 </div>
             </Link>
-
         </>
     )
 }

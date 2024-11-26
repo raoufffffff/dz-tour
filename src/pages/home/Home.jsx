@@ -6,7 +6,7 @@ import Search from '../../compunent/search/Search'
 const Home = () => {
     const OurCategory = categories.map((e, i) => {
         return <Link
-            className='flex bg-[#ddd7] min-w-[45%] md:w-5/12   h-16 py-1 mx-1 px-3 md:h-12 md:py-1 md:px-1 items-center rounded-xl'
+            className='flex bg-[#ddd7] min-w-[45%] md:min-w-[180px]  md:flex-1   h-16 py-1 mx-1 px-3  items-center rounded-xl'
             to={`/evant/${e.name}`}
             key={i}
         >
@@ -27,7 +27,7 @@ const Home = () => {
             <Search />
             <Titel name='Categories' />
             <div
-                className='flex a b pb-2 flex-nowrap overflow-x-auto  md:flex-wrap md:overflow-hidden  pl-1 gap-2 md:justify-center'
+                className='flex a b pb-2 flex-nowrap overflow-x-auto    pl-1 gap-2 '
             >
 
                 {OurCategory}

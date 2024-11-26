@@ -2,6 +2,16 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Titel from '../titel/Titel'
 import TousCard from '../tourCard/TousCard'
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+import './styles.css';
+
+// import required modules
+import { Pagination } from 'swiper/modules';
 
 const Tours = ({ type }) => {
     const [tours, settours] = useState([])
@@ -37,9 +47,11 @@ const Tours = ({ type }) => {
                     err ?
                         <h1>err</h1>
                         :
+
                         <div
-                            className='flex flex-wrap justify-around w-full px-3'
+                            className='flex overflow-x-auto justify-around a b w-full px-3'
                         >
+
                             {tours.map(e => {
                                 return <TousCard tour={e} key={e} />
                             })}
@@ -49,5 +61,6 @@ const Tours = ({ type }) => {
         </div>
     )
 }
+
 
 export default Tours
