@@ -2,7 +2,7 @@
 const Titel = ({ name }) => {
     return (
         <strong
-            className="text-3xl text-gray-800 block my-5 px-5"
+            className={`${name == "tours similaires" ? "text-2xl" : "text-3xl"}  text-gray-800 block my-2 px-5`}
         >{name}</strong>
     )
 }

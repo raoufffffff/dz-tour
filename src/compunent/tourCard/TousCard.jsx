@@ -1,14 +1,15 @@
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { FaLocationArrow } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import Evant from '../../pages/evant/Evant';
 
 
-const TousCard = ({ tour }) => {
+const TousCard = ({ tour, from }) => {
     return (
         <>
             <Link
                 to={`/evant/${tour._id}`}
-                className='min-w-[200px] md:min-w-[250px] mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize'
+                className={`${from ? "w-[45%] md:w-3/12" : "min-w-[200px] md:min-w-[250px]"} mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize`}
             >
                 <img src={tour.imgs[0]}
                     className='h-[150px] rounded-xl w-full'
@@ -23,7 +24,7 @@ const TousCard = ({ tour }) => {
 
                     {tour.type === "sorties" && <p
                         className='font-bold flex items-center'
-                    ><FaLocationArrow className='text-cyan-600 mr-1' /> london</p>}
+                    ><FaLocationArrow className='text-cyan-600 mr-1' /> {tour.to}</p>}
                     <p
                         className='pl-1 flex items-center font-bold'
                     ><FaRegMoneyBillAlt className='mr-1 text-green-600' />
@@ -33,7 +34,7 @@ const TousCard = ({ tour }) => {
             </Link>
             <Link
                 to={`/evant/${tour._id}`}
-                className='min-w-[200px] md:min-w-[250px] mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize'
+                className={`${from ? "w-[45%] md:w-3/12" : "min-w-[200px] md:min-w-[250px]"} mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize`}
             >
                 <img src={tour.imgs[1]}
                     className='h-[150px] rounded-xl w-full'
@@ -48,7 +49,7 @@ const TousCard = ({ tour }) => {
 
                     {tour.type === "sorties" && <p
                         className='font-bold flex items-center'
-                    ><FaLocationArrow className='text-cyan-600 mr-1' /> london</p>}
+                    ><FaLocationArrow className='text-cyan-600 mr-1' /> {tour.to}</p>}
                     <p
                         className='pl-1 flex items-center font-bold'
                     ><FaRegMoneyBillAlt className='mr-1 text-green-600' />

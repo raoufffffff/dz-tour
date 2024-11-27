@@ -6,6 +6,8 @@ import MinSCreenEvantImage from '../../compunent/evantsCompunents/minSCreenEvant
 import SideTitel from '../../compunent/evantsCompunents/sidetitel/SideTitel'
 import { BsCalendarDate, BsChatRightText, BsCheck2 } from "react-icons/bs";
 import { SiCashapp } from 'react-icons/si'
+import { FaRegStar } from 'react-icons/fa'
+import Tours from '../../compunent/tours/Tours'
 
 
 const Evant = () => {
@@ -33,12 +35,12 @@ const Evant = () => {
                 top: 0
             })
         }
-
         getevant()
         scroolTop()
     }, [id])
     if (loading) return <h1>louding</h1>
     if (err) return <h1>err</h1>
+    window.document.title = evant.titel
     return (
         <div
             className='w-full overflow-hidden px-5 capitalize pb-[60px]  py-3'
@@ -47,7 +49,9 @@ const Evant = () => {
             <h1
                 className='text-3xl mb-3'
             >{evant.titel}</h1>
-
+            <span
+                className='text-slate-600 text-lg pl-2'
+            >Destination : {evant.to}</span>
 
             <ImageZoum images={evant.imgs} />
             <MinSCreenEvantImage images={evant.imgs} />
@@ -63,7 +67,7 @@ const Evant = () => {
                         <SideTitel titel={"Réservation"} />
                     </div>
                     <div
-                        className='border-2 md:rounded-xl fixed bottom-0 left-0 py-1.5 md:py-3 font-bold border-cyan-600 bg-cyan-500 md:bg-[#16b6b41f] flex md:flex-col text-white md:text-[#2e3a59] w-full md:relative md:w-11/12 mx-auto md:mt-5 px-2   items-center lowercase'
+                        className='border-2 md:rounded-xl fixed bottom-0 left-0 py-1.5 md:py-3 font-bold border-cyan-600 bg-cyan-500 md:bg-[#16b6b41f] flex md:flex-col text-white md:text-[#2e3a59] w-full md:relative md:w-11/12 mx-auto md:mt-5 px-3   items-center lowercase'
                     >
                         <h2
                             className='md:text-xl'
@@ -88,57 +92,78 @@ const Evant = () => {
                     <div
                         className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
                     ></div>
-                    <SideTitel
-                        titel={"Détails du séjour"}
-                        icon={<BsCalendarDate className='mr-2 text-gray-600' />}
-                    />
-                    <ul
-                        className='list-disc pl-5'
-                    >
-                        <li
-                            className='font-bold'
-                        >Dates </li>
 
-                        <ul
-                            className='list-[circle] pl-5'
-                        >
-                            <li>Départ : {evant.date}</li>
-                            <li>Retour : {evant.rotor}</li>
-                        </ul>
-                        <li
-                        >
-                            <strong>Durée</strong> : <span>{evant.days} jours  / {evant.days - 1} nuits</span>
-                        </li>
-                        <li
-                        >
-                            <strong>Hébergement</strong> : <span>{evant.hotel}</span>
-                        </li>
-                    </ul>
-                    <div
-                        className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
-                    ></div>
-                    <SideTitel
-                        titel={"Programme"}
-                        icon={<BsChatRightText className='mr-2 text-amber-600' />}
-                    />
-                    <div>
-                        {evant.program.map((e, i) => (
-                            <div
-                                key={i}
+                    {evant.type == "séjour" ?
+                        <>
+                            <SideTitel
+                                titel={"Détails du séjour"}
+                                icon={<BsCalendarDate className='mr-2 text-gray-600' />}
+                            />
+                            <ul
+                                className='list-disc pl-5'
                             >
-                                <strong
-                                    className='text-xl'
-                                >🗓 Jour {i + 1} :</strong>
+                                <li
+                                    className='font-bold'
+                                >Dates </li>
+
                                 <ul
-                                    className='list-disc pl-10'
+                                    className='list-[circle] pl-5'
                                 >
-                                    {e.map((q, j) => (
-                                        <li key={j}>{q}</li>
-                                    ))}
+                                    <li>Départ : {evant.date}</li>
+                                    {evant.rotor && <li>Retour : {evant.rotor}</li>}
                                 </ul>
+                                {evant.days && <li
+                                >
+                                    <strong>Durée</strong> : <span>{evant.days} jours  / {evant.days - 1} nuits</span>
+                                </li>}
+                                {evant.hotel && <li
+                                >
+                                    <strong>Hébergement</strong> : <span>{evant.hotel}</span>
+                                </li>}
+                            </ul>
+                        </>
+                        :
+                        <>
+                            <SideTitel
+                                titel={"Détails du séjour"}
+                                icon={<BsCalendarDate className='mr-2 text-gray-600' />}
+                            />
+                            <h2
+                                className='text-1xl pl-5 font-bold'
+                            >{evant.date}</h2>
+                        </>
+                    }
+
+                    {evant.program.length > 0 &&
+                        <>
+
+                            <div
+                                className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                            ></div>
+                            <SideTitel
+                                titel={"Programme"}
+                                icon={<BsChatRightText className='mr-2 text-amber-600' />}
+                            />
+                            <div>
+                                {evant.program.map((e, i) => (
+                                    <div
+                                        key={i}
+                                    >
+                                        <strong
+                                            className='text-xl flex'
+                                        ><FaRegStar className='mr-1.5 text-gray-600' /> Jour {i + 1} :</strong>
+                                        <ul
+                                            className='list-disc pl-10'
+                                        >
+                                            {e.map((q, j) => (
+                                                <li key={j}>{q}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    }
                     <div
                         className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
                     ></div>
@@ -153,23 +178,49 @@ const Evant = () => {
                             <li key={i}>{e}</li>
                         ))}
                     </ul>
+                    {evant.type === "sorties" &&
+                        <>
+
+                            <div
+                                className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
+                            ></div>
+                            <SideTitel
+                                titel={"Tarifs :"}
+                                icon={<SiCashapp className="mr-2 text-green-600" />}
+                            />
+                            <ul
+                                className='list-disc pl-10'
+                            >
+
+                                <li>
+                                    <strong>Adulte (chambre double ou triple) : </strong> {evant.Tarifs.adulet} Da
+                                </li>
+                                <li>
+                                    <strong>Enfant (6-12 ans) : </strong> {evant.Tarifs.kid} Da
+                                </li>
+                                <li>
+                                    <strong>Enfant (-6 ans, sans siège) </strong> {evant.Tarifs.baby} Da
+                                </li>
+                            </ul>
+                        </>
+                    }
                     <div
                         className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
                     ></div>
-                    <SideTitel
-                        titel={"Tarifs :"}
-                        icon={<SiCashapp className="mr-2 text-green-600" />}
-                    />
-                    <ul
-                        className='list-disc pl-10'
+                    <p
+                        className='px-3 text-wrap w-9/12 font-bold'
                     >
+                        {evant?.tags.map(e => (
+                            <span
+                                key={e}
+                                className="mx-1"
+                            >#{e}</span>
+                        ))}
 
-                        <li>
-                            <strong>Adulte (chambre double ou triple) : </strong> {evant.Tarifs[0].Adulte}
-                        </li>
-                    </ul>
+                    </p>
                 </div>
             </div>
+            <Tours id={id} type={evant.type} />
         </div>
     )
 }

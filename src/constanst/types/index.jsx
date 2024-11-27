@@ -1,15 +1,11 @@
 export default [
     {
-        name: "Activités",
+        name: "sorties",
         img: "https://tahwissa.net/wp-content/uploads/2023/03/Frame-292.webp"
     },
     {
         name: "Cinéma",
         img: "https://tahwissa.net/wp-content/uploads/2023/03/Frame-296.webp"
-    },
-    {
-        name: "Séjour",
-        img: "https://tahwissa.net/wp-content/uploads/2023/07/sejour-01.png"
     },
     {
         name: "Arcades",

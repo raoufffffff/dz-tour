@@ -7,7 +7,7 @@ const Home = () => {
     const OurCategory = categories.map((e, i) => {
         return <Link
             className='flex bg-[#ddd7] min-w-[45%] md:min-w-[180px]  md:flex-1   h-16 py-1 mx-1 px-3  items-center rounded-xl'
-            to={`/evant/${e.name}`}
+            to={`/type/?type=${e.name}`}
             key={i}
         >
             <img
@@ -32,7 +32,10 @@ const Home = () => {
 
                 {OurCategory}
             </div>
-            <Tours type={"Sorties"} />
+            {categories.map(e => (
+                <Tours key={e.name} type={e.name} />
+            ))}
+
         </div>
     )
 }
