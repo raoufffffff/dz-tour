@@ -6,13 +6,18 @@ import MinSCreenEvantImage from '../../compunent/evantsCompunents/minSCreenEvant
 import SideTitel from '../../compunent/evantsCompunents/sidetitel/SideTitel'
 import { BsCalendarDate, BsChatRightText, BsCheck2 } from "react-icons/bs";
 import { SiCashapp } from 'react-icons/si'
-import { FaRegStar } from 'react-icons/fa'
+import { FaLocationArrow, FaRegStar } from 'react-icons/fa'
 import Tours from '../../compunent/tours/Tours'
+import About from '../../compunent/evantsCompunents/aboutHoster/About'
+import Join from '../../compunent/evantsCompunents/jion/Join'
+import { AnimatePresence } from 'framer-motion'
 
 
 const Evant = () => {
     const [evant, setevant] = useState(null)
     const [loading, setloading] = useState(true)
+    const [show, setshow] = useState(false)
+    const hide = () => setshow(false)
     const [err, seterr] = useState(false)
     const { id } = useParams()
     useEffect(() => {
@@ -41,17 +46,18 @@ const Evant = () => {
     if (loading) return <h1>louding</h1>
     if (err) return <h1>err</h1>
     window.document.title = evant.titel
+    const url = `https://www.google.com/maps?q=${evant?.location?.lat},${evant?.location?.lng}`;
     return (
         <div
-            className='w-full overflow-hidden px-5 capitalize pb-[60px]  py-3'
+            className={` w-full overflow-hidden px-2 md:px-5 capitalize pb-5  py-3`}
         >
 
             <h1
-                className='text-3xl mb-3'
+                className='text-3xl md:text-4xl md:pl-5 mb-3'
             >{evant.titel}</h1>
-            <span
+            {evant.to && <span
                 className='text-slate-600 text-lg pl-2'
-            >Destination : {evant.to}</span>
+            >Destination : {evant.to}</span>}
 
             <ImageZoum images={evant.imgs} />
             <MinSCreenEvantImage images={evant.imgs} />
@@ -76,6 +82,7 @@ const Evant = () => {
                             className='md:text-xl ml-2 capitalize my-3'
                         >{evant.price} Da</strong>
                         <button
+                            onClick={() => setshow(true)}
                             className='bg-cyan-600 text-white rounded-lg text-lg ml-auto md:mx-auto  px-5 py-2'
                         >
                             Réserver
@@ -89,10 +96,27 @@ const Evant = () => {
                     <p
                         className='my-2'
                     >{evant.des}</p>
+
+
                     <div
                         className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'
                     ></div>
+                    {evant?.location?.lat &&
+                        <>
 
+                            <SideTitel titel={"Localisation :"}
+                                icon={<FaLocationArrow className='text-cyan-600 mr-3' />}
+                            />
+
+
+                            <a href={url} target='_blank' className='underline'>
+                                {evant.titel}
+                            </a>
+                            <div
+                                className='w-10/12 mx-auto h-[0.1px] bg-[#3337] my-3'>
+                            </div>
+                        </>
+                    }
                     {evant.type == "séjour" ?
                         <>
                             <SideTitel
@@ -125,7 +149,7 @@ const Evant = () => {
                         :
                         <>
                             <SideTitel
-                                titel={"Détails du séjour"}
+                                titel={"Détails"}
                                 icon={<BsCalendarDate className='mr-2 text-gray-600' />}
                             />
                             <h2
@@ -218,9 +242,14 @@ const Evant = () => {
                         ))}
 
                     </p>
+                    <About id={evant.hoster} />
                 </div>
             </div>
             <Tours id={id} type={evant.type} />
+
+            <AnimatePresence>
+                {show && <Join hide={hide} id={id} />}
+            </AnimatePresence>
         </div>
     )
 }

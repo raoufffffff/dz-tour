@@ -9,12 +9,9 @@ function App() {
       className='w-full overflow-hidden bg-white'
     >
       <Header />
-      <div
-        className=''
-      >
 
-        <Outlet />
-      </div>
+
+      <Outlet />
       <Footer />
     </div>
   )
