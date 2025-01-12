@@ -11,6 +11,7 @@ import Tours from '../../compunent/tours/Tours'
 import About from '../../compunent/evantsCompunents/aboutHoster/About'
 import Join from '../../compunent/evantsCompunents/jion/Join'
 import { AnimatePresence } from 'framer-motion'
+import LoadingPage from '../../compunent/loading/LoadingPage'
 
 
 const Evant = () => {
@@ -43,7 +44,7 @@ const Evant = () => {
         getevant()
         scroolTop()
     }, [id])
-    if (loading) return <h1>louding</h1>
+    if (loading) return <LoadingPage />
     if (err) return <h1>err</h1>
     window.document.title = evant.titel
     const url = `https://www.google.com/maps?q=${evant?.location?.lat},${evant?.location?.lng}`;
@@ -62,7 +63,7 @@ const Evant = () => {
             <ImageZoum images={evant.imgs} />
             <MinSCreenEvantImage images={evant.imgs} />
             <div
-                className='flex flex-col md:flex-row-reverse'
+                className='flex flex-col md:flex-row-reverse mt-5'
             >
                 <div
                     className='w-full md:w-4/12 md:px-3 mb-5'

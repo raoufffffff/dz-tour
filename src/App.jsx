@@ -6,12 +6,16 @@ function App() {
 
   return (
     <div
-      className='w-full overflow-hidden bg-white'
+      className='w-full overflow-hidden  bg-white'
     >
       <Header />
 
+      <main
+        className='min-h-screen'
+      >
 
-      <Outlet />
+        <Outlet />
+      </main>
       <Footer />
     </div>
   )

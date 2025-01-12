@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { FaBars } from 'react-icons/fa'
 const Header = () => {
     return (
         <header
@@ -29,19 +30,13 @@ const Header = () => {
                     animate={{ x: 0 }} className='text-cyan-600'
                 >Tour</motion.span>
             </Link>
-            <Link
-                className='bg-cyan-600 text-white px-4 py-2 rounded-xl hover:-rotate-2 transition-all hover:scale-105'
-                to={'/'}>
-                <motion.span
 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Publier dz.tour
-
-                </motion.span>
-            </Link>
+            <button>
+                <FaBars
+                    size={28}
+                    className='text-cyan-600'
+                />
+            </button>
         </header>
     )
 }

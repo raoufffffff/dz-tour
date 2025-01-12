@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Titel from '../titel/Titel'
 import TousCard from '../tourCard/TousCard'
+import Loading from '../loading/Loading'
 
 const Tours = ({ type, id }) => {
     const [tours, settours] = useState([])
@@ -31,7 +32,6 @@ const Tours = ({ type, id }) => {
         }
         gettours()
     }, [type])
-    if (loading) return <h1>louding</h1>
     if (err) return <h1>err</h1>
     if (tours.length === 0 && !loading) {
         return
@@ -49,7 +49,7 @@ const Tours = ({ type, id }) => {
                 className='flex overflow-x-auto justify-around a b w-full px-3'
             >
 
-                {tours.map(e => {
+                {loading ? <Loading /> : tours.map(e => {
                     return <TousCard tour={e} key={e} />
                 })}
             </div>

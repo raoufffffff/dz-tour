@@ -47,14 +47,11 @@ const Join = ({ hide, id }) => {
     }
     return (
         <>
-            <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
-                exit={{ scale: 0 }}
+            <div
+
                 onClick={hide}
                 className="fixed bg-[#3333] top-0 left-0 w-full h-screen z-40 "
-            ></motion.div>
+            ></div>
             <motion.div
                 initial={{ x: 1000 }}
                 animate={{ x: 0 }}

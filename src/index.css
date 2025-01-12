@@ -12,31 +12,23 @@
     100% { transform: translateX(0); }
   }
 
+.a::-webkit-scrollbar {
+    width: 0px;
+  }
 
+  .one-line {
+    display: -webkit-box;
+  -webkit-line-clamp: 1; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Optional: adds "..." for overflow */
+  }
 
 .search{
   background-image: url("https://i.ibb.co/0QFFVQL/p.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-}
-
-.a::-webkit-scrollbar{
-    height: 5px;
-}
-
-
-.a.b::-webkit-scrollbar{
-width: 10px;
-}
-
-.a::-webkit-scrollbar-track{
-    background-color: #eee;
-}
-
-.a::-webkit-scrollbar-thumb{
-    background:rgba(254, 255, 255, 0.694);
-    border-radius: 15px;
 }
 
 

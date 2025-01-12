@@ -22,7 +22,6 @@ const Home = () => {
     })
     return (
         <div
-            className=''
         >
             <Search />
             <Titel name='Categories' />
