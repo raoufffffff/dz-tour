@@ -249,7 +249,7 @@ const Evant = () => {
             <Tours id={id} type={evant.type} />
 
             <AnimatePresence>
-                {show && <Join hide={hide} id={id} />}
+                {show && <Join hide={hide} id={id} name={evant.titel} />}
             </AnimatePresence>
         </div>
     )

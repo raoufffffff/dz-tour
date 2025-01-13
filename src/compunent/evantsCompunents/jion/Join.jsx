@@ -2,8 +2,9 @@ import axios from "axios"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { IoExitOutline } from "react-icons/io5"
+import QRCodeGenerator from "../../qr/Qr"
 
-const Join = ({ hide, id }) => {
+const Join = ({ hide, id, name }) => {
     const [user, setuser] = useState({
         name: "",
         phone: "",
@@ -34,8 +35,7 @@ const Join = ({ hide, id }) => {
         try {
             await axios.post(`https://dz-tour-api.vercel.app/tour/join/${id}`, { user })
                 .then((res) => {
-                    console.log(res);
-
+                    console.log(res.data.result);
                     setfdone(true)
                 })
         } catch (error) {
@@ -77,11 +77,11 @@ const Join = ({ hide, id }) => {
                     done
                         ?
                         <div
-                            className="w-full h-full flex items-center"
+                            className="w-full h-full  items-center"
                         >
-                            <div
-                                className="bg-[#e0ffc7] w-10/12 py-5 mx-auto px-8 font-semibold border "
-                            >Réservation bien reçu, Merci !</div>
+
+                            <QRCodeGenerator name={name} />
+
                         </div> :
                         <form
                             className="w-full h-full flex flex-col  justify-center"
@@ -152,7 +152,6 @@ const Join = ({ hide, id }) => {
                                     onChange={(e) => setuser({ ...user, date: { ...user.date, yaer: e.target.value } })}
                                 >
                                     <option value="yyyy">yyyy</option>
-                                    <option value="2024">2024</option>
                                     <option value="2025">2025</option>
 
                                 </select>

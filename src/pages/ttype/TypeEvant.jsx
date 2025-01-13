@@ -1,32 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import Titel from '../../compunent/titel/Titel'
 import axios from 'axios'
 import TousCard from '../../compunent/tourCard/TousCard'
-import categories from '../../constanst/types'
 import Loading from '../../compunent/loading/Loading'
+import Category from '../../compunent/Category/Category'
 const TypeEvant = () => {
     const [searchParams] = useSearchParams()
     const [tours, settours] = useState([])
     const [loading, setloading] = useState(true)
     const [err, seterr] = useState(false)
-    const OurCategory = categories.map((e, i) => {
-        return <Link
-            className='flex bg-[#ddd7] min-w-[45%] md:min-w-[180px]  md:flex-1   h-16 py-1 mx-1 px-3  items-center rounded-xl'
-            to={`/type/?type=${e.name}`}
-            key={i}
-            onClick={() => gettours(e.name)}
-        >
-            <img
-                className='h-full'
-                src={e.img} />
-            <span
-                className='mx-auto font-bold'
-            >
-                {e.name}
-            </span>
-        </Link>
-    })
+
     const gettours = async (a) => {
         setloading(true)
         try {
@@ -52,12 +36,7 @@ const TypeEvant = () => {
         <div
             className='w-full'
         >
-            <div
-                className='flex a b mt-8 mb-3 pb-2 flex-nowrap overflow-x-auto    pl-1 gap-2 '
-            >
-
-                {OurCategory}
-            </div>
+            <Category />
             <Titel name={searchParams.get("type")} />
             <div
                 className='flex flex-wrap  justify-around a b w-full px-3'

@@ -46,7 +46,7 @@ const Tours = ({ type, id }) => {
 
 
             <div
-                className='flex overflow-x-auto justify-around a b w-full px-3'
+                className='flex overflow-x-auto  a b w-full px-3'
             >
 
                 {loading ? <Loading /> : tours.map(e => {
