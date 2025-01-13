@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaBars } from 'react-icons/fa'
+import { useState } from 'react'
+import Nav from './Nav'
 const Header = () => {
+    const [show, setshow] = useState(false)
+    const hide = () => setshow(false)
     return (
         <header
 
@@ -31,12 +35,15 @@ const Header = () => {
                 >Tour</motion.span>
             </Link>
 
-            <button>
+            <button
+                onClick={() => setshow(true)}
+            >
                 <FaBars
                     size={28}
                     className='text-cyan-600'
                 />
             </button>
+            {show && <Nav hide={hide} />}
         </header>
     )
 }

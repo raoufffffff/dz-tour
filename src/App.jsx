@@ -11,7 +11,7 @@ function App() {
       <Header />
 
       <main
-        className='min-h-screen'
+        className='min-h-[50vh]'
       >
 
         <Outlet />

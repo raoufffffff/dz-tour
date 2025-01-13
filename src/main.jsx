@@ -7,6 +7,7 @@ import Evant from './pages/evant/Evant.jsx';
 import Home from './pages/home/Home.jsx';
 import TypeEvant from './pages/ttype/TypeEvant.jsx';
 import Search from './pages/search/Search.jsx';
+import Acount from './pages/acount/Acount.jsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -14,6 +15,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='evant/:id' Component={Evant} />
     <Route path='type' Component={TypeEvant} />
     <Route path='search' Component={Search} />
+    <Route path='acount' Component={Acount} />
   </Route>
 ));
 

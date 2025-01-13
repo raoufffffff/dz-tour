@@ -1,40 +1,47 @@
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { FaLocationArrow } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-import Evant from '../../pages/evant/Evant';
-
 
 const TousCard = ({ tour, from }) => {
     return (
-        <>
-            <Link
-                to={`/evant/${tour._id}`}
-                className={`${from ? "w-[45%] md:w-3/12" : "min-w-[200px] md:min-w-[250px]"} mx-2 my-2 shadow-2xl bg-[#eeea]  capitalize`}
-            >
-                <img src={tour.imgs[0]}
-                    className='h-[150px] rounded-xl w-full'
+        <Link
+            to={`/evant/${tour._id}`}
+            className={`${from ? "w-[43%] md:w-3/12" : "min-w-[200px] md:min-w-[250px]"} mx-1 my-4 shadow-lg bg-white rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl`}
+        >
+            {/* Image Section */}
+            <div className="relative">
+                <img
+                    src={tour.imgs[0]}
+                    alt={tour.titel}
+                    className="h-[150px] md:h-[180px] w-full object-cover"
                 />
-                <div
-                    className='flex-col px-2 w-full pt-1 mt-1 pb-2'
-                >
-                    <strong>  {tour.titel}</strong>
-                    <p
-                        className='pl-1'
-                    >Départ :   {tour.state}</p>
+                {tour.type === "sorties" && (
+                    <span className="absolute top-2 left-2 bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-lg">
+                        Sortie
+                    </span>
+                )}
+            </div>
 
-                    {tour.type === "sorties" && <p
-                        className='font-bold flex items-center'
-                    ><FaLocationArrow className='text-cyan-600 mr-1' /> {tour.to}</p>}
-                    <p
-                        className='pl-1 flex items-center font-bold'
-                    ><FaRegMoneyBillAlt className='mr-1 text-green-600' />
-                        {tour.price} da</p>
+            {/* Content Section */}
+            <div className="p-4">
+                <h2 className="text-lg font-semibold text-gray-800 truncate">
+                    {tour.titel}
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                    <span className="font-medium">Départ:</span> {tour.state}
+                </p>
+                {tour.type === "sorties" && (
+                    <p className="text-sm text-gray-800 font-bold flex items-center mt-2">
+                        <FaLocationArrow className="text-cyan-600 mr-2" /> {tour.to}
+                    </p>
+                )}
+                <p className="text-lg text-gray-800 font-bold flex items-center mt-3">
+                    <FaRegMoneyBillAlt className="text-green-600 mr-2" />
+                    {tour.price} DA
+                </p>
+            </div>
+        </Link>
+    );
+};
 
-                </div>
-            </Link>
-
-        </>
-    )
-}
-
-export default TousCard
+export default TousCard;
