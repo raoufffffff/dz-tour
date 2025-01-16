@@ -8,6 +8,10 @@ import Home from './pages/home/Home.jsx';
 import TypeEvant from './pages/ttype/TypeEvant.jsx';
 import Search from './pages/search/Search.jsx';
 import Acount from './pages/acount/Acount.jsx';
+import About from './pages/about/About.jsx';
+import TermsAndConditions from './pages/taerm/Taerm.jsx';
+import Contact from './pages/contact/Contact.jsx';
+import Level from './pages/level/Level.jsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -16,6 +20,10 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='type' Component={TypeEvant} />
     <Route path='search' Component={Search} />
     <Route path='acount' Component={Acount} />
+    <Route path='about' Component={About} />
+    <Route path='taerm' Component={TermsAndConditions} />
+    <Route path='contact' Component={Contact} />
+    <Route path='level' Component={Level} />
   </Route>
 ));
 

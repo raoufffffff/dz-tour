@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import links from "../../constanst/links/links";
 import { motion } from "framer-motion";
-
-const Nav = ({ hide }) => {
+import userlinks from "../../constanst/links/userlinks";
+import { Link } from "react-router-dom";
+const UserNav = ({ hide }) => {
     return (
         <div className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
             <motion.div
@@ -39,7 +38,7 @@ const Nav = ({ hide }) => {
                     </motion.span>
                 </h1>
                 <nav className="flex flex-col space-y-4">
-                    {links.map((link, index) => (
+                    {userlinks.map((link, index) => (
                         <motion.div
                             key={link}
                             initial={{ x: -50, opacity: 0 }}
@@ -64,7 +63,7 @@ const Nav = ({ hide }) => {
                 </button>
             </motion.div>
         </div>
-    );
-};
+    )
+}
 
-export default Nav;
+export default UserNav

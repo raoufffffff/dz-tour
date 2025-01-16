@@ -3,13 +3,17 @@ import { motion } from 'framer-motion'
 import { FaBars } from 'react-icons/fa'
 import { useState } from 'react'
 import Nav from './Nav'
+import UserNav from './UserNav'
 const Header = () => {
+    const [user, setUser] = useState(
+        JSON.parse(window.localStorage.getItem("user")) || null
+    );
     const [show, setshow] = useState(false)
     const hide = () => setshow(false)
     return (
         <header
 
-            className='flex justify-between items-center px-6 lg:px-10 py-5 shadow-xl '
+            className='flex justify-between items-center px-6 lg:px-10 py-4 shadow-xl '
         >
             <Link
                 className='flex items-center text-xl lg:text-3xl hover:-rotate-2 transition-all hover:scale-105'
@@ -35,15 +39,23 @@ const Header = () => {
                 >Tour</motion.span>
             </Link>
 
-            <button
-                onClick={() => setshow(true)}
-            >
-                <FaBars
-                    size={28}
-                    className='text-cyan-600'
-                />
-            </button>
-            {show && <Nav hide={hide} />}
+            {user ?
+                <button
+                    className='capitalize text-white  bg-cyan-600  py-2 px-3.5 rounded-full'
+                    onClick={() => setshow(true)}
+                >
+                    <span>{user.name[0]}</span>
+                </button>
+                :
+                <button
+                    onClick={() => setshow(true)}
+                >
+                    <FaBars
+                        size={28}
+                        className='text-cyan-600'
+                    />
+                </button>}
+            {show && (user ? <UserNav hide={hide} /> : <Nav hide={hide} />)}
         </header>
     )
 }

@@ -1,9 +1,16 @@
 export default [
     {
-        name: "Sin In",
+        name: "Acount",
         link: "acount"
-    }
-    ,
+    },
+    {
+        name: "my hestory",
+        link: "hestory"
+    },
+    {
+        name: "my tikets",
+        link: "tikets"
+    },
     {
         name: "about us",
         link: "about"

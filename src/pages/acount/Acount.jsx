@@ -1,30 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import LogIn from "./LogIn";
+import { FaBookOpen, FaWallet } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaTicketSimple } from "react-icons/fa6";
 
 const Account = () => {
     const [user, setUser] = useState(
         JSON.parse(window.localStorage.getItem("user")) || null
     );
-    const [tours, setTours] = useState([]);
 
-    useEffect(() => {
-        if (user) {
-            window.localStorage.setItem("user", JSON.stringify(user));
 
-            // Fetch user's tour history
-            const fetchTours = async () => {
-                try {
-                    const response = await fetch(`http://localhost:3010/tours?userId=${user.id}`);
-                    const data = await response.json();
-                    setTours(data);
-                } catch (error) {
-                    console.error("Erreur lors du chargement de l'historique des tours:", error);
-                }
-            };
-
-            fetchTours();
-        }
-    }, [user]);
 
     const logOut = () => {
         setUser(null);
@@ -34,85 +20,88 @@ const Account = () => {
     if (!user) return <LogIn hide={setUser} />;
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <div className="w-10/12 md:w-8/12 lg:w-6/12 bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-cyan-600 to-rose-500 text-white p-6 text-center">
-                    <h1 className="text-2xl font-bold">Bienvenue!</h1>
-                    <p className="mt-2">Ravi de vous revoir, {user.name}</p>
+        <motion.div
+            className="bg-gray-100 flex justify-center min-h-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
+            <motion.div
+                className="w-full bg-white pb-2 rounded-lg overflow-hidden"
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5 }}
+            >
+                <div className="bg-gradient-to-r from-cyan-600 to-rose-500 flex pt-6 pb-28 px-5 capitalize text-white">
+                    <div
+                        className="rounded-full bg-white mr-2 py-3 px-4 text-cyan-600"
+                    >
+                        <span>{user.name[0]}</span>
+                    </div>
+                    <div>
+                        <h1>Bienvenue, {user.name}</h1>
+                        <h1>Niveau <span className="text-yellow-400">1</span></h1>
+                    </div>
                 </div>
-                <div className="p-6">
-                    <p className="text-gray-700 text-lg mb-4">
-                        <span className="font-medium">Nom:</span> {user.name}
-                    </p>
-                    <p className="text-gray-700 text-lg mb-6">
-                        <span className="font-medium">Téléphone:</span> {user.phone}
-                    </p>
-
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Historique des Tours</h2>
-                    {tours.length > 0 ? (
-                        <div className="space-y-6">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-800 mb-2">Confirmés</h3>
-                                <ul className="space-y-4">
-                                    {tours.filter(tour => tour.status === "confirmed").map((tour) => (
-                                        <li
-                                            key={tour.id}
-                                            className="p-4 border rounded-lg shadow-sm bg-gray-50 hover:bg-gray-100 transition"
-                                        >
-                                            <h3 className="text-lg font-bold text-cyan-600">{tour.title}</h3>
-                                            <p className="text-gray-600">Date: {new Date(tour.date).toLocaleDateString()}</p>
-                                            <p className="text-gray-600">Lieu: {tour.location}</p>
-                                            <p className="text-gray-600">Prix: {tour.price} DA</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-800 mb-2">En attente</h3>
-                                <ul className="space-y-4">
-                                    {tours.filter(tour => tour.status === "waiting").map((tour) => (
-                                        <li
-                                            key={tour.id}
-                                            className="p-4 border rounded-lg shadow-sm bg-gray-50 hover:bg-gray-100 transition"
-                                        >
-                                            <h3 className="text-lg font-bold text-yellow-600">{tour.title}</h3>
-                                            <p className="text-gray-600">Date: {new Date(tour.date).toLocaleDateString()}</p>
-                                            <p className="text-gray-600">Lieu: {tour.location}</p>
-                                            <p className="text-gray-600">Prix: {tour.price} DA</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-800 mb-2">Annulés</h3>
-                                <ul className="space-y-4">
-                                    {tours.filter(tour => tour.status === "cancelled").map((tour) => (
-                                        <li
-                                            key={tour.id}
-                                            className="p-4 border rounded-lg shadow-sm bg-gray-50 hover:bg-gray-100 transition"
-                                        >
-                                            <h3 className="text-lg font-bold text-red-600">{tour.title}</h3>
-                                            <p className="text-gray-600">Date: {new Date(tour.date).toLocaleDateString()}</p>
-                                            <p className="text-gray-600">Lieu: {tour.location}</p>
-                                            <p className="text-gray-600">Prix: {tour.price} DA</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    ) : (
-                        <p className="text-gray-600">Aucun historique de tours trouvé.</p>
-                    )}
+                <motion.div
+                    className="bg-white w-10/12 -mt-24 mx-auto rounded-xl shadow-lg pt-3 pb-7 px-4"
+                    whileHover={{ scale: 1.02 }}
+                >
+                    <div className="flex items-start">
+                        <FaBookOpen className="text-cyan-600 mr-2" size={30} />
+                        <p className="mt-1 text-center">Vous êtes à 10 réservations du niveau 2 Dz.Tour</p>
+                    </div>
+                    <Link
+                        to={'/level'}
+                        className="flex font-bold mt-5 w-full justify-center text-rose-500"
+                    >
+                        En savoir plus sur les niveaux Dz.Tour
+                    </Link>
+                </motion.div>
+                <motion.div
+                    className="bg-white w-10/12 mt-5 mx-auto rounded-xl shadow-lg pt-3 pb-7 px-4"
+                    whileHover={{ scale: 1.02 }}
+                >
+                    <div className="flex items-start">
+                        <FaWallet className="text-cyan-600 mr-2" size={30} />
+                        <p className="mt-1 text-center">Vos aventures avec nous</p>
+                    </div>
+                    <p className="text-[#0007] text-center mt-5">Vous n'en avez pas encore.</p>
+                    <Link
+                        className="flex font-bold mt-5 w-full justify-center text-rose-500"
+                    >
+                        Voir tout
+                    </Link>
+                </motion.div>
+                <motion.div
+                    className="bg-white w-10/12 mt-5 mx-auto rounded-xl shadow-lg pt-3 pb-7 px-4"
+                    whileHover={{ scale: 1.02 }}
+                >
+                    <div className="flex items-start">
+                        <FaTicketSimple className="text-cyan-600 mr-2" size={30} />
+                        <p className="mt-1 text-center">Vos coupons</p>
+                    </div>
+                    <p className="text-[#0007] text-center mt-5">Vous n'avez pas de coupons.</p>
+                    <Link
+                        className="flex font-bold mt-5 w-full justify-center text-rose-500"
+                    >
+                        Comment les obtenir ?
+                    </Link>
+                </motion.div>
+                <div
+                    className="flex w-full justify-center"
+                >
 
                     <button
                         onClick={logOut}
-                        className="mt-6 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+                        className="mt-6 w-8/12 md:w-4/12 mx-auto bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
                     >
                         Déconnexion
                     </button>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+
+        </motion.div>
     );
 };
 

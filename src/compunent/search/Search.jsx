@@ -49,7 +49,7 @@ const SearchInput = () => {
                     placeholder="Rechercher Tahwissa ..."
                 />
                 <button
-                    className="ml-2 md:w-3/12 justify-center flex items-center rounded-xl text-white bg-[#2E3A59] md:text-xl px-3 py-1.5"
+                    className="ml-2 md:w-3/12 justify-center flex items-center rounded-xl text-white bg-rose-500 md:text-xl px-3 py-1.5"
                     type="submit"
                 >
                     <IoSearchSharp size={24} className="md:mr-2" />

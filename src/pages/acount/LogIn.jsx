@@ -5,6 +5,7 @@ import axios from "axios";
 const LogIn = ({ hide }) => {
     const [user, setUser] = useState({ name: "", phone: "" });
     const [errors, setErrors] = useState({ name: false, phone: false });
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,16 +15,18 @@ const LogIn = ({ hide }) => {
         };
         setErrors(newErrors);
 
-        // Si pas d'erreurs, procéder à la soumission du formulaire
         if (!newErrors.name && !newErrors.phone) {
+            setLoading(true);
             try {
-                const response = await axios.post("http://localhost:3010/join", user);
+                const response = await axios.post("https://dz-tour-api.vercel.app/join", user);
                 console.log("Response:", response.data.result);
-                window.localStorage.setItem("user", JSON.stringify(response.data.result))
-                hide(response.data.result)
+                window.localStorage.setItem("user", JSON.stringify(response.data.result));
+                hide(response.data.result);
             } catch (error) {
                 console.error("Erreur lors de l'enregistrement:", error);
                 alert("Une erreur est survenue. Veuillez réessayer.");
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -31,7 +34,7 @@ const LogIn = ({ hide }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({ ...prevUser, [name]: value }));
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: false })); // Effacer l'erreur lors de la saisie
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
     };
 
     return (
@@ -89,9 +92,36 @@ const LogIn = ({ hide }) => {
 
                     <button
                         type="submit"
-                        className="w-full bg-cyan-600 text-white py-2 px-4 rounded-lg hover:bg-cyan-700 transition duration-200"
+                        className="w-full bg-cyan-600 text-white py-2 px-4 rounded-lg hover:bg-cyan-700 transition duration-200 flex justify-center items-center"
+                        disabled={loading}
                     >
-                        Connexion
+                        {loading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 mr-3 text-white"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v8H4z"
+                                    ></path>
+                                </svg>
+                                Chargement...
+                            </>
+                        ) : (
+                            "Connexion"
+                        )}
                     </button>
                 </form>
             </motion.div>
