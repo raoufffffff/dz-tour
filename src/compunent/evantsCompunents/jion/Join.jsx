@@ -1,183 +1,167 @@
-import axios from "axios"
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { IoExitOutline } from "react-icons/io5"
-import QRCodeGenerator from "../../qr/Qr"
+import axios from "axios";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { IoExitOutline } from "react-icons/io5";
+import QRCodeGenerator from "../../qr/Qr";
 
 const Join = ({ hide, id, name }) => {
-    const [user, setuser] = useState({
+    const [user, setUser] = useState({
         name: "",
         phone: "",
         date: {
             day: "",
-            manth: "",
-            yaer: ""
+            month: "",
+            year: "",
         },
-        q: 1
-    })
-    const [formerr, setformerr] = useState(false)
-    const [done, setfdone] = useState(false)
-    const [err, setferr] = useState(false)
-    const [loading, setloading] = useState(false)
+        q: 1,
+    });
+    const [formErr, setFormErr] = useState(false);
+    const [done, setDone] = useState(false);
+    const [err, setErr] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const days = (b) => {
-        let a = []
-        for (let i = 0; i < b; i++) {
-            a.push(i + 1)
-        }
-        a = a.map(e => {
-            return <option value={e} key={e}>{e < 10 && 0}{e}</option>
-        })
-        return a
-    }
-    const joinuser = async () => {
-        setloading(true)
+    const generateDays = (count) => {
+        return Array.from({ length: count }, (_, i) => (
+            <option value={i + 1} key={i}>{(i + 1).toString().padStart(2, "0")}</option>
+        ));
+    };
+
+    const joinUser = async () => {
+        setLoading(true);
         try {
-            await axios.post(`https://dz-tour-api.vercel.app/tour/join/${id}`, { user })
-                .then((res) => {
-                    console.log(res.data.result);
-                    setfdone(true)
-                })
+            const response = await axios.post(`https://dz-tour-api.vercel.app/tour/join/${id}`, { user });
+            console.log(response.data.result);
+            setDone(true);
         } catch (error) {
-            console.log(error);
-            setferr(true)
+            console.error(error);
+            setErr(true);
         } finally {
-            setloading(false)
+            setLoading(false);
         }
-    }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (user.name.trim() === "" || user.phone.trim() === "") {
+            setFormErr(true);
+            return;
+        }
+        joinUser();
+    };
+
     return (
         <>
             <div
-
                 onClick={hide}
-                className="fixed bg-[#3333] top-0 left-0 w-full h-screen z-40 "
+                className="fixed bg-black bg-opacity-40 top-0 left-0 w-full h-screen z-40"
             ></div>
             <motion.div
-                initial={{ x: 1000 }}
+                initial={{ x: "100%" }}
                 animate={{ x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                exit={{ x: 1000 }}
-                className="fixed w-full  z-50 md:w-8/12 right-0 top-0 h-screen bg-white"
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="fixed w-full md:w-8/12 right-0 top-0 h-screen bg-white shadow-lg z-50"
             >
                 <div
                     onClick={hide}
-                    className="absolute top-5 right-5 md:hidden"
+                    className="absolute top-5 right-5 cursor-pointer md:hidden text-gray-600 hover:text-gray-800"
                 >
-                    <IoExitOutline size={20} />
+                    <IoExitOutline size={24} />
                 </div>
-                {err ?
-                    <div
-                        className="w-full h-full flex items-center"
-                    >
-                        <div
-                            className="bg-[#ffc7c7] w-10/12 py-5 mx-auto px-8 font-semibold border "
-                        >something went wrong !</div>
+                {err ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                        <div className="bg-red-100 text-red-600 p-6 rounded-lg shadow-lg">
+                            Une erreur s'est produite. Veuillez réessayer !
+                        </div>
                     </div>
-                    :
-                    done
-                        ?
-                        <div
-                            className="w-full h-full  items-center"
+                ) : done ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center">
+                        <QRCodeGenerator name={name} />
+                    </div>
+                ) : (
+                    <form
+                        className="w-full h-full flex flex-col justify-center px-8"
+                        onSubmit={handleSubmit}
+                    >
+                        <label className="mb-2 font-semibold text-gray-700" htmlFor="name">
+                            Nom et prénom : <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr && !user.name ? "border-red-500" : "border-gray-300"}`}
+                            placeholder="Votre nom"
+                            value={user.name}
+                            onChange={(e) => setUser({ ...user, name: e.target.value })}
+                        />
+
+                        <label className="mb-2 font-semibold text-gray-700" htmlFor="phone">
+                            Numéro de téléphone : <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="text"
+                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr && !user.phone ? "border-red-500" : "border-gray-300"}`}
+                            placeholder="Votre numéro de téléphone"
+                            value={user.phone}
+                            onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                        />
+
+                        <label className="mb-2 font-semibold text-gray-700">Date de réservation :</label>
+                        <div className="flex space-x-2 mb-4">
+                            <select
+                                name="day"
+                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                onChange={(e) => setUser({ ...user, date: { ...user.date, day: e.target.value } })}
+                            >
+                                <option value="">Jour</option>
+                                {generateDays(31)}
+                            </select>
+                            <select
+                                name="month"
+                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                onChange={(e) => setUser({ ...user, date: { ...user.date, month: e.target.value } })}
+                            >
+                                <option value="">Mois</option>
+                                {generateDays(12)}
+                            </select>
+                            <select
+                                name="year"
+                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                onChange={(e) => setUser({ ...user, date: { ...user.date, year: e.target.value } })}
+                            >
+                                <option value="">Année</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
+
+                        <label className="mb-2 font-semibold text-gray-700" htmlFor="quantity">
+                            Nombre de personnes :
+                        </label>
+                        <input
+                            id="quantity"
+                            name="quantity"
+                            type="number"
+                            className="border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            value={user.q}
+                            min={1}
+                            onChange={(e) => setUser({ ...user, q: Math.max(1, e.target.value) })}
+                        />
+
+                        <button
+                            type="submit"
+                            className={`w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-cyan-600 hover:bg-cyan-700"}`}
+                            disabled={loading}
                         >
-
-                            <QRCodeGenerator name={name} />
-
-                        </div> :
-                        <form
-                            className="w-full h-full flex flex-col  justify-center"
-                            onSubmit={(e) => {
-                                e.preventDefault()
-                                if (user.name == "" || user.phone == "") {
-                                    setformerr(true)
-                                    return
-                                }
-                                joinuser()
-                            }}
-                        >
-                            <label
-                                className="w-10/12 mx-auto"
-                                htmlFor="name"
-                            >
-                                Nom et prénom : <span className="text-red-700 font-bold"> *</span>
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                className={`border-2 py-1 w-10/12 mx-auto  px-1.5 my-3 rounded-lg border-[#333a]" ${formerr && "border-rose-600"}`}
-                                placeholder="voter name"
-                                value={user.name}
-                                onChange={(e) => setuser({ ...user, name: e.target.value })}
-                            />
-                            <label
-                                className="w-10/12 mx-auto"
-                                htmlFor="name"
-                            >
-                                Numéro de téléphone : <span className="text-red-700 font-bold"> *</span>
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                className={`border-2 py-1 w-10/12 mx-auto  px-1.5 my-3 rounded-lg border-[#333a]" ${formerr && "border-rose-600"}`}
-                                placeholder="voter Numéro de téléphone"
-                                value={user.phone}
-                                onChange={(e) => setuser({ ...user, phone: e.target.value })}
-                            />
-                            <label
-                                className="w-10/12 mx-auto"
-                                htmlFor="name"
-                            >
-                                Date de réservation :
-                            </label>
-                            <div
-                                className="pl-12"
-                            >
-                                <select name="day" id="day"
-                                    className="border-2 border-[#333a] rounded-md mx-2 mt-2"
-                                    onChange={(e) => setuser({ ...user, date: { ...user.date, day: e.target.value } })}
-                                >
-                                    <option value="jj">jj</option>
-                                    {days(30)}
-                                </select>
-                                <select name="manth" id="manth"
-                                    className="border-2 border-[#333a] rounded-md mx-2 mt-2"
-                                    onChange={(e) => setuser({ ...user, date: { ...user.date, manth: e.target.value } })}
-                                >
-                                    <option value="mm">mm</option>
-                                    {days(12)}
-                                </select>
-                                <select name="yaer" id="yaer"
-                                    className="border-2 border-[#333a] rounded-md mx-2 mt-2"
-                                    onChange={(e) => setuser({ ...user, date: { ...user.date, yaer: e.target.value } })}
-                                >
-                                    <option value="yyyy">yyyy</option>
-                                    <option value="2025">2025</option>
-
-                                </select>
-                            </div>
-                            <label
-                                className="w-10/12 mx-auto"
-                                htmlFor="name"
-                            >
-                                Nombres de personnes
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="number"
-                                className="border-2 py-1 w-10/12 mx-auto  px-1.5 my-3 rounded-lg border-[#333a]"
-                                placeholder="voter Numéro de téléphone"
-                                value={user.q}
-                                onChange={(e) => setuser({ ...user, q: e.target.value < 1 ? 1 : e.target.value })}
-                            />
-                            <button
-                                className={`bg-[#eee] py-4 mt-3 rounded-lg hover:text-white hover:bg-cyan-600 px-5  w-fit ml-12`}
-                            >{loading ? "loading" : "Réserver"}</button>
-                        </form>}
+                            {loading ? "Chargement..." : "Réserver"}
+                        </button>
+                    </form>
+                )}
             </motion.div>
         </>
-    )
-}
+    );
+};
 
-export default Join
+export default Join;
