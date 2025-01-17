@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ImageZoum from '../../compunent/evantsCompunents/evantzoumImage/ImageZoum'
 import MinSCreenEvantImage from '../../compunent/evantsCompunents/minSCreenEvantImage/MinSCreenEvantImage'
 import SideTitel from '../../compunent/evantsCompunents/sidetitel/SideTitel'
@@ -12,9 +12,14 @@ import About from '../../compunent/evantsCompunents/aboutHoster/About'
 import Join from '../../compunent/evantsCompunents/jion/Join'
 import { AnimatePresence } from 'framer-motion'
 import LoadingPage from '../../compunent/loading/LoadingPage'
+import HomeAdd from '../../compunent/home/HomeAdd'
 
 
 const Evant = () => {
+    const navigate = useNavigate()
+    const [user] = useState(
+        JSON.parse(window.localStorage.getItem("user")) || null
+    );
     const [evant, setevant] = useState(null)
     const [loading, setloading] = useState(true)
     const [show, setshow] = useState(false)
@@ -52,7 +57,7 @@ const Evant = () => {
         <div
             className={` w-full overflow-hidden px-2 md:px-5 capitalize pb-5  py-3`}
         >
-
+            <HomeAdd />
             <h1
                 className='text-3xl md:text-4xl md:pl-5 mb-3'
             >{evant.titel}</h1>
@@ -74,7 +79,7 @@ const Evant = () => {
                         <SideTitel titel={"Réservation"} />
                     </div>
                     <div
-                        className='border-2 md:rounded-xl fixed bottom-0 left-0 py-1.5 md:py-3 font-bold border-cyan-600 bg-cyan-500 md:bg-[#16b6b41f] flex md:flex-col text-white md:text-[#2e3a59] w-full md:relative md:w-11/12 mx-auto md:mt-5 px-3   items-center lowercase'
+                        className='border-2 md:rounded-xl fixed bottom-0 left-0 py-1.5 md:py-3 font-bold border-cyan-600 bg-cyan-500 md:bg-[#16b6b41f] flex md:flex-col text-white md:text-[#2e3a59] w-full md:relative md:w-11/12 mx-auto md:mt-5 px-3   items-center lowercase z-[100]'
                     >
                         <h2
                             className='md:text-xl'
@@ -83,7 +88,13 @@ const Evant = () => {
                             className='md:text-xl ml-2 capitalize my-3'
                         >{evant.price} Da</strong>
                         <button
-                            onClick={() => setshow(true)}
+                            onClick={() => {
+                                if (user) {
+                                    setshow(true)
+                                } else {
+                                    navigate(`/login/?from=${id}`)
+                                }
+                            }}
                             className='bg-cyan-600 text-white rounded-lg text-lg ml-auto md:mx-auto  px-5 py-2'
                         >
                             Réserver
@@ -249,7 +260,7 @@ const Evant = () => {
             <Tours id={id} type={evant.type} />
 
             <AnimatePresence>
-                {show && <Join hide={hide} id={id} name={evant.titel} />}
+                {show && <Join hide={hide} id={id} name={evant.titel} userid={user._id} img={evant.imgs[0]} />}
             </AnimatePresence>
         </div>
     )

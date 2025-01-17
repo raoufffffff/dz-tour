@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import links from "../../constanst/links/links";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const Nav = ({ hide }) => {
+    const [user, setUser] = useState(
+        JSON.parse(window.localStorage.getItem("user")) || null
+    );
     return (
-        <div className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div
+            onClick={hide}
+            className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
             <motion.div
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -56,12 +62,12 @@ const Nav = ({ hide }) => {
                         </motion.div>
                     ))}
                 </nav>
-                <button
-                    onClick={hide}
-                    className="mt-6 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+                {!user && < Link
+                    to={'log'}
+                    className="mt-6 w-full bg-gradient-to-r from-cyan-600 to-rose-500 flex transition duration-200 justify-center text-white capitalize font-bold py-2 rounded-xl"
                 >
-                    Close
-                </button>
+                    Connexion
+                </Link>}
             </motion.div>
         </div>
     );

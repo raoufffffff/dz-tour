@@ -1,10 +1,5 @@
 export default [
     {
-        name: "Sin In",
-        link: "acount"
-    }
-    ,
-    {
         name: "about us",
         link: "about"
     },

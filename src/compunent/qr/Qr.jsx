@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 
-const QRCodeGenerator = ({ name }) => {
+const QRCodeGenerator = ({ result }) => {
     const ticketRef = useRef(null); // Reference to the ticket div
 
     const downloadTicket = async () => {
@@ -36,15 +36,14 @@ const QRCodeGenerator = ({ name }) => {
                         <span className="text-sm">.</span>
                         <span className="text-cyan-600 text-sm">Tour</span>
                     </h1>
-
                     <QRCodeCanvas
-                        value={name || ""}
+                        value={`https://dz-tour.onrender.com/ticket/${result._id}`}
                         size={200} // Size of the QR code
                         bgColor="#ffffff" // Background color
                         fgColor="#000000" // Foreground color
                         level="H" // Error correction level: L, M, Q, H
                     />
-                    <h1 className="text-center text-3xl mt-8 mb-4">{name}</h1>
+                    <h1 className="text-center text-3xl mt-8 mb-4">{result?.evant}</h1>
                 </div>
             </div>
 

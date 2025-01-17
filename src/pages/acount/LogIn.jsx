@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-const LogIn = ({ hide }) => {
+const LogIn = () => {
+    const [searchparams] = useSearchParams()
+    const navigate = useNavigate()
     const [user, setUser] = useState({ name: "", phone: "" });
     const [errors, setErrors] = useState({ name: false, phone: false });
     const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ const LogIn = ({ hide }) => {
                 const response = await axios.post("https://dz-tour-api.vercel.app/join", user);
                 console.log("Response:", response.data.result);
                 window.localStorage.setItem("user", JSON.stringify(response.data.result));
-                hide(response.data.result);
+                navigate(searchparams.get("from") ? `/evant/${searchparams.get("from")}` : '/acount')
             } catch (error) {
                 console.error("Erreur lors de l'enregistrement:", error);
                 alert("Une erreur est survenue. Veuillez réessayer.");
@@ -39,6 +42,7 @@ const LogIn = ({ hide }) => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-cyan-100 to-white">
+
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -89,7 +93,9 @@ const LogIn = ({ hide }) => {
                         />
                         {errors.phone && <p className="text-red-500 text-sm mt-1">Le numéro de téléphone est obligatoire</p>}
                     </div>
-
+                    <p className="mt-6 text-sm text-gray-600 text-center">
+                        <Link to={`/signup/?from=${searchparams.get("from")}`} className="text-cyan-600 underline"> Créer un compte</Link>.
+                    </p>
                     <button
                         type="submit"
                         className="w-full bg-cyan-600 text-white py-2 px-4 rounded-lg hover:bg-cyan-700 transition duration-200 flex justify-center items-center"

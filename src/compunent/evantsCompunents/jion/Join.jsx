@@ -4,7 +4,8 @@ import { useState } from "react";
 import { IoExitOutline } from "react-icons/io5";
 import QRCodeGenerator from "../../qr/Qr";
 
-const Join = ({ hide, id, name }) => {
+const Join = ({ hide, id, name, img, userid }) => {
+    const [result, setResult] = useState(null);
     const [user, setUser] = useState({
         name: "",
         phone: "",
@@ -14,8 +15,12 @@ const Join = ({ hide, id, name }) => {
             year: "",
         },
         q: 1,
+        img: img,
+        evant: name,
+        evantid: id,
+        userid: userid,
     });
-    const [formErr, setFormErr] = useState(false);
+    const [formErr, setFormErr] = useState({ name: false, phone: false, date: false });
     const [done, setDone] = useState(false);
     const [err, setErr] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -29,8 +34,8 @@ const Join = ({ hide, id, name }) => {
     const joinUser = async () => {
         setLoading(true);
         try {
-            const response = await axios.post(`https://dz-tour-api.vercel.app/tour/join/${id}`, { user });
-            console.log(response.data.result);
+            const response = await axios.post(`https://dz-tour-api.vercel.app/join/${id}`, user);
+            setResult(response.data.result);
             setDone(true);
         } catch (error) {
             console.error(error);
@@ -42,8 +47,15 @@ const Join = ({ hide, id, name }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (user.name.trim() === "" || user.phone.trim() === "") {
-            setFormErr(true);
+        const hasErrors = {
+            name: user.name.trim() === "",
+            phone: user.phone.trim() === "",
+            date: user.date.day === "" || user.date.month === "" || user.date.year === "",
+        };
+
+        setFormErr(hasErrors);
+
+        if (Object.values(hasErrors).some((error) => error)) {
             return;
         }
         joinUser();
@@ -53,14 +65,14 @@ const Join = ({ hide, id, name }) => {
         <>
             <div
                 onClick={hide}
-                className="fixed bg-black bg-opacity-40 top-0 left-0 w-full h-screen z-40"
+                className="fixed bg-black bg-opacity-40 top-0 left-0 w-full h-screen z-[101]"
             ></div>
             <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="fixed w-full md:w-8/12 right-0 top-0 h-screen bg-white shadow-lg z-50"
+                className="fixed w-full md:w-8/12 right-0 top-0 h-screen bg-white shadow-lg z-[102]"
             >
                 <div
                     onClick={hide}
@@ -76,7 +88,7 @@ const Join = ({ hide, id, name }) => {
                     </div>
                 ) : done ? (
                     <div className="w-full h-full flex flex-col items-center justify-center">
-                        <QRCodeGenerator name={name} />
+                        <QRCodeGenerator result={result} />
                     </div>
                 ) : (
                     <form
@@ -90,7 +102,7 @@ const Join = ({ hide, id, name }) => {
                             id="name"
                             name="name"
                             type="text"
-                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr && !user.name ? "border-red-500" : "border-gray-300"}`}
+                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.name ? "border-red-500" : "border-gray-300"}`}
                             placeholder="Votre nom"
                             value={user.name}
                             onChange={(e) => setUser({ ...user, name: e.target.value })}
@@ -102,8 +114,8 @@ const Join = ({ hide, id, name }) => {
                         <input
                             id="phone"
                             name="phone"
-                            type="text"
-                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr && !user.phone ? "border-red-500" : "border-gray-300"}`}
+                            type="tel"
+                            className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.phone ? "border-red-500" : "border-gray-300"}`}
                             placeholder="Votre numéro de téléphone"
                             value={user.phone}
                             onChange={(e) => setUser({ ...user, phone: e.target.value })}
@@ -113,7 +125,7 @@ const Join = ({ hide, id, name }) => {
                         <div className="flex space-x-2 mb-4">
                             <select
                                 name="day"
-                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, day: e.target.value } })}
                             >
                                 <option value="">Jour</option>
@@ -121,7 +133,7 @@ const Join = ({ hide, id, name }) => {
                             </select>
                             <select
                                 name="month"
-                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, month: e.target.value } })}
                             >
                                 <option value="">Mois</option>
@@ -129,7 +141,7 @@ const Join = ({ hide, id, name }) => {
                             </select>
                             <select
                                 name="year"
-                                className="border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, year: e.target.value } })}
                             >
                                 <option value="">Année</option>

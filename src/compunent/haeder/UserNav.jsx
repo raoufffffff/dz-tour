@@ -1,15 +1,22 @@
 import { motion } from "framer-motion";
 import userlinks from "../../constanst/links/userlinks";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const UserNav = ({ hide }) => {
+    const navigate = useNavigate()
+    const logOut = () => {
+        window.localStorage.removeItem("user");
+        navigate('/')
+    };
     return (
-        <div className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div
+            onClick={hide}
+            className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex items-end justify-center md:items-center  z-[1000000000]">
             <motion.div
-                initial={{ y: -100, opacity: 0 }}
+                initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -100, opacity: 0 }}
+                exit={{ y: 100, opacity: 0 }}
                 transition={{ duration: 0.5, type: "spring" }}
-                className="w-10/12 md:w-6/12 lg:w-4/12 bg-white shadow-xl rounded-2xl py-6 px-8"
+                className="w-full  md:w-6/12 lg:w-4/12 bg-white shadow-xl rounded-t-2xl md:rounded-2xl py-6 px-8"
             >
                 <h1 className="flex justify-center text-2xl font-bold mb-6">
                     <motion.span
@@ -56,10 +63,10 @@ const UserNav = ({ hide }) => {
                     ))}
                 </nav>
                 <button
-                    onClick={hide}
+                    onClick={logOut}
                     className="mt-6 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
                 >
-                    Close
+                    Déconnexion
                 </button>
             </motion.div>
         </div>

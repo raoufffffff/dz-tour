@@ -1,26 +1,14 @@
 export default [
     {
-        name: "Acount",
-        link: "acount"
+        name: "my acount",
+        link: "acount",
     },
     {
-        name: "my hestory",
+        name: "hestory",
         link: "hestory"
     },
     {
-        name: "my tikets",
+        name: "tikets",
         link: "tikets"
-    },
-    {
-        name: "about us",
-        link: "about"
-    },
-    {
-        name: "taerm and conditions",
-        link: "taerm"
-    },
-    {
-        name: "contact us",
-        link: "contact"
     }
 ]

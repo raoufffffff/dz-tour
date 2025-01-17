@@ -12,6 +12,9 @@ import About from './pages/about/About.jsx';
 import TermsAndConditions from './pages/taerm/Taerm.jsx';
 import Contact from './pages/contact/Contact.jsx';
 import Level from './pages/level/Level.jsx';
+import LogIn from './pages/acount/LogIn.jsx';
+import SignIn from './pages/acount/Sin.jsx';
+import Ticket from './pages/Ticket/Ticket.jsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -24,6 +27,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='taerm' Component={TermsAndConditions} />
     <Route path='contact' Component={Contact} />
     <Route path='level' Component={Level} />
+    <Route path='login' Component={LogIn} />
+    <Route path='signup' Component={SignIn} />
+    <Route path='ticket/:id' Component={Ticket} />
   </Route>
 ));
 

@@ -1,4 +1,3 @@
-import React from 'react'
 
 const SideTitel = ({ titel, icon }) => {
     return (

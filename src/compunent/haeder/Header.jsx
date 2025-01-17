@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaBars } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Nav from './Nav'
 import UserNav from './UserNav'
 const Header = () => {
@@ -9,7 +9,18 @@ const Header = () => {
         JSON.parse(window.localStorage.getItem("user")) || null
     );
     const [show, setshow] = useState(false)
+    const [showuser, setshowuser] = useState(false)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setUser(JSON.parse(window.localStorage.getItem("user")));
+        }, 5000);
+
+        return () => clearInterval(interval); // Cleanup the interval on unmount
+    }, []);
+
+
     const hide = () => setshow(false)
+    const hideuser = () => setshowuser(false)
     return (
         <header
 
@@ -39,14 +50,16 @@ const Header = () => {
                 >Tour</motion.span>
             </Link>
 
-            {user ?
-                <button
-                    className='capitalize text-white  bg-cyan-600  py-2 px-3.5 rounded-full'
-                    onClick={() => setshow(true)}
+
+            <div
+                className='flex items-center'
+            >
+                {!user && <Link
+                    to={'login'}
+                    className=" w-full mr-4  bg-rose-500  flex transition duration-200 justify-center text-white capitalize font-bold py-1 rounded-xl px-2"
                 >
-                    <span>{user.name[0]}</span>
-                </button>
-                :
+                    Connexion
+                </Link>}
                 <button
                     onClick={() => setshow(true)}
                 >
@@ -54,8 +67,21 @@ const Header = () => {
                         size={28}
                         className='text-cyan-600'
                     />
-                </button>}
-            {show && (user ? <UserNav hide={hide} /> : <Nav hide={hide} />)}
+                </button>
+                {user &&
+                    <button
+                        className='capitalize ml-4 text-white  bg-cyan-600  py-2 px-3.5 rounded-full'
+                        onClick={() => setshowuser(true)}
+                    >
+                        <span>{user.name[0]}</span>
+                    </button>
+
+                }
+
+            </div>
+
+            {show && <Nav hide={hide} />}
+            {showuser && <UserNav hide={hideuser} />}
         </header>
     )
 }

@@ -2,10 +2,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import LogIn from "./LogIn";
 import { FaBookOpen, FaWallet } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTicketSimple } from "react-icons/fa6";
 
 const Account = () => {
+    const navigate = useNavigate()
     const [user, setUser] = useState(
         JSON.parse(window.localStorage.getItem("user")) || null
     );
@@ -15,9 +16,9 @@ const Account = () => {
     const logOut = () => {
         setUser(null);
         window.localStorage.removeItem("user");
+        navigate('/')
     };
 
-    if (!user) return <LogIn hide={setUser} />;
 
     return (
         <motion.div
