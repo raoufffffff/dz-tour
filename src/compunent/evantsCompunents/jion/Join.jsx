@@ -4,37 +4,42 @@ import { useState } from "react";
 import { IoExitOutline } from "react-icons/io5";
 import QRCodeGenerator from "../../qr/Qr";
 
-const Join = ({ hide, id, name, img, userid }) => {
+const Join = ({ hide, price, id, name, img, userid }) => {
+    const localuser = JSON.parse(window.localStorage.getItem("user")) || null;
+
     const [result, setResult] = useState(null);
     const [user, setUser] = useState({
-        name: "",
-        phone: "",
-        date: {
-            day: "",
-            month: "",
-            year: "",
-        },
+        name: localuser?.name || "",
+        phone: localuser?.phone || "",
+        date: { day: "", month: "", year: "" },
         q: 1,
-        img: img,
+        img,
         evant: name,
         evantid: id,
-        userid: userid,
+        userid,
+        price,
     });
     const [formErr, setFormErr] = useState({ name: false, phone: false, date: false });
     const [done, setDone] = useState(false);
     const [err, setErr] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [promoCode, setPromoCode] = useState("");
+    const [discount, setDiscount] = useState(0);
 
-    const generateDays = (count) => {
+    const generateOptions = (count, start = 1) => {
         return Array.from({ length: count }, (_, i) => (
-            <option value={i + 1} key={i}>{(i + 1).toString().padStart(2, "0")}</option>
+            <option value={start + i} key={i}>{`${start + i}`.padStart(2, "0")}</option>
         ));
     };
 
     const joinUser = async () => {
         setLoading(true);
+        const finalPrice = price * user.q * (1 - discount / 100);
         try {
-            const response = await axios.post(`https://dz-tour-api.vercel.app/join/${id}`, user);
+            const response = await axios.post(`https://dz-tour-api.vercel.app/join/${id}`, {
+                ...user,
+                price: finalPrice,
+            });
             setResult(response.data.result);
             setDone(true);
         } catch (error) {
@@ -45,28 +50,39 @@ const Join = ({ hide, id, name, img, userid }) => {
         }
     };
 
+    const handlePromoCode = async () => {
+        try {
+            const response = await axios.put(`https://dz-tour-api.vercel.app/join/compo/${userid}`, { code: promoCode });
+            if (response.data.result) {
+                setDiscount(response.data.result);
+            } else {
+                alert("Code promo invalide");
+                setDiscount(0);
+            }
+        } catch (error) {
+            alert("Erreur lors de l'application du code promo");
+            setDiscount(0);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const hasErrors = {
-            name: user.name.trim() === "",
-            phone: user.phone.trim() === "",
-            date: user.date.day === "" || user.date.month === "" || user.date.year === "",
+        const errors = {
+            name: !user.name.trim(),
+            phone: !user.phone.trim(),
+            date: !user.date.day || !user.date.month || !user.date.year,
         };
 
-        setFormErr(hasErrors);
-
-        if (Object.values(hasErrors).some((error) => error)) {
-            return;
-        }
+        setFormErr(errors);
+        if (Object.values(errors).some(Boolean)) return;
         joinUser();
     };
 
+    const totalPrice = price * user.q * (1 - discount / 100);
+
     return (
         <>
-            <div
-                onClick={hide}
-                className="fixed bg-black bg-opacity-40 top-0 left-0 w-full h-screen z-[101]"
-            ></div>
+            <div onClick={hide} className="fixed bg-black bg-opacity-40 top-0 left-0 w-full h-screen z-[101]"></div>
             <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
@@ -74,10 +90,7 @@ const Join = ({ hide, id, name, img, userid }) => {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="fixed w-full md:w-8/12 right-0 top-0 h-screen bg-white shadow-lg z-[102]"
             >
-                <div
-                    onClick={hide}
-                    className="absolute top-5 right-5 cursor-pointer md:hidden text-gray-600 hover:text-gray-800"
-                >
+                <div onClick={hide} className="absolute top-5 right-5 cursor-pointer md:hidden text-gray-600 hover:text-gray-800">
                     <IoExitOutline size={24} />
                 </div>
                 {err ? (
@@ -91,16 +104,12 @@ const Join = ({ hide, id, name, img, userid }) => {
                         <QRCodeGenerator result={result} />
                     </div>
                 ) : (
-                    <form
-                        className="w-full h-full flex flex-col justify-center px-8"
-                        onSubmit={handleSubmit}
-                    >
-                        <label className="mb-2 font-semibold text-gray-700" htmlFor="name">
+                    <form className="w-full h-full flex flex-col justify-center px-8" onSubmit={handleSubmit}>
+                        <label htmlFor="name" className="mb-2 font-semibold text-gray-700">
                             Nom et prénom : <span className="text-red-500">*</span>
                         </label>
                         <input
                             id="name"
-                            name="name"
                             type="text"
                             className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.name ? "border-red-500" : "border-gray-300"}`}
                             placeholder="Votre nom"
@@ -108,12 +117,11 @@ const Join = ({ hide, id, name, img, userid }) => {
                             onChange={(e) => setUser({ ...user, name: e.target.value })}
                         />
 
-                        <label className="mb-2 font-semibold text-gray-700" htmlFor="phone">
+                        <label htmlFor="phone" className="mb-2 font-semibold text-gray-700">
                             Numéro de téléphone : <span className="text-red-500">*</span>
                         </label>
                         <input
                             id="phone"
-                            name="phone"
                             type="tel"
                             className={`border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.phone ? "border-red-500" : "border-gray-300"}`}
                             placeholder="Votre numéro de téléphone"
@@ -124,23 +132,20 @@ const Join = ({ hide, id, name, img, userid }) => {
                         <label className="mb-2 font-semibold text-gray-700">Date de réservation :</label>
                         <div className="flex space-x-2 mb-4">
                             <select
-                                name="day"
                                 className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, day: e.target.value } })}
                             >
                                 <option value="">Jour</option>
-                                {generateDays(31)}
+                                {generateOptions(31)}
                             </select>
                             <select
-                                name="month"
                                 className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, month: e.target.value } })}
                             >
                                 <option value="">Mois</option>
-                                {generateDays(12)}
+                                {generateOptions(12)}
                             </select>
                             <select
-                                name="year"
                                 className={`border-2 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${formErr.date ? "border-red-500" : "border-gray-300"}`}
                                 onChange={(e) => setUser({ ...user, date: { ...user.date, year: e.target.value } })}
                             >
@@ -149,18 +154,49 @@ const Join = ({ hide, id, name, img, userid }) => {
                             </select>
                         </div>
 
-                        <label className="mb-2 font-semibold text-gray-700" htmlFor="quantity">
+                        <label htmlFor="quantity" className="mb-2 font-semibold text-gray-700">
                             Nombre de personnes :
                         </label>
                         <input
                             id="quantity"
-                            name="quantity"
                             type="number"
                             className="border-2 py-2 px-4 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             value={user.q}
                             min={1}
                             onChange={(e) => setUser({ ...user, q: Math.max(1, e.target.value) })}
                         />
+
+                        {discount === 0 && (
+                            <div className="mb-4">
+                                <label htmlFor="promoCode" className="mb-2 font-semibold text-gray-700">
+                                    Code Promo :
+                                </label>
+                                <div className="flex space-x-2">
+                                    <input
+                                        id="promoCode"
+                                        type="text"
+                                        className="border-2 py-2 px-4 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                        placeholder="Entrez votre code promo"
+                                        value={promoCode}
+                                        onChange={(e) => setPromoCode(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
+                                        onClick={handlePromoCode}
+                                    >
+                                        Appliquer
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="mb-3 text-lg font-semibold text-gray-700">
+                            Total : <span className="text-cyan-600">{price * user.q} DA</span>
+                        </div>
+                        <div className="mb-6 text-lg font-semibold text-gray-700">
+                            Finale Total : <span className="text-cyan-600">{totalPrice} DA</span>
+                        </div>
 
                         <button
                             type="submit"

@@ -5,7 +5,7 @@ import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import Evant from './pages/evant/Evant.jsx';
 import Home from './pages/home/Home.jsx';
-import TypeEvant from './pages/ttype/TypeEvant.jsx';
+import TypeEvant from './pages/type/TypeEvant.jsx';
 import Search from './pages/search/Search.jsx';
 import Acount from './pages/acount/Acount.jsx';
 import About from './pages/about/About.jsx';
@@ -15,6 +15,7 @@ import Level from './pages/level/Level.jsx';
 import LogIn from './pages/acount/LogIn.jsx';
 import SignIn from './pages/acount/Sin.jsx';
 import Ticket from './pages/Ticket/Ticket.jsx';
+import MyTicket from './pages/myticket/MyTicket.jsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -30,6 +31,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='login' Component={LogIn} />
     <Route path='signup' Component={SignIn} />
     <Route path='ticket/:id' Component={Ticket} />
+    <Route path='tikets' Component={MyTicket} />
   </Route>
 ));
 

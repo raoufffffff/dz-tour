@@ -12,7 +12,6 @@ import About from '../../compunent/evantsCompunents/aboutHoster/About'
 import Join from '../../compunent/evantsCompunents/jion/Join'
 import { AnimatePresence } from 'framer-motion'
 import LoadingPage from '../../compunent/loading/LoadingPage'
-import HomeAdd from '../../compunent/home/HomeAdd'
 
 
 const Evant = () => {
@@ -57,7 +56,6 @@ const Evant = () => {
         <div
             className={` w-full overflow-hidden px-2 md:px-5 capitalize pb-5  py-3`}
         >
-            <HomeAdd />
             <h1
                 className='text-3xl md:text-4xl md:pl-5 mb-3'
             >{evant.titel}</h1>
@@ -260,7 +258,7 @@ const Evant = () => {
             <Tours id={id} type={evant.type} />
 
             <AnimatePresence>
-                {show && <Join hide={hide} id={id} name={evant.titel} userid={user._id} img={evant.imgs[0]} />}
+                {show && <Join hide={hide} id={id} name={evant.titel} userid={user._id} img={evant.imgs[0]} price={evant.price} />}
             </AnimatePresence>
         </div>
     )

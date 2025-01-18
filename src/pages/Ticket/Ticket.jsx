@@ -93,8 +93,12 @@ const Ticket = () => {
                         </span>
                     </div>
                     <div className="flex justify-between items-center">
-                        <span className="font-semibold text-gray-700">Quantité :</span>
+                        <span className="font-semibold text-gray-700">Nombre de personnes :</span>
                         <span className="text-gray-800">{ticket.q}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <span className="font-semibold text-gray-700">Prix :</span>
+                        <span className="text-gray-800">{ticket.price} DA</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="font-semibold text-gray-700">Statut :</span>

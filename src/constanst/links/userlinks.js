@@ -4,10 +4,6 @@ export default [
         link: "acount",
     },
     {
-        name: "hestory",
-        link: "hestory"
-    },
-    {
         name: "tikets",
         link: "tikets"
     }
