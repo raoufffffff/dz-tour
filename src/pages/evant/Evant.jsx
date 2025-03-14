@@ -182,16 +182,15 @@ const Evant = () => {
                                 {evant.program.map((e, i) => (
                                     <div
                                         key={i}
+                                        className='flex my-3'
                                     >
                                         <strong
                                             className='text-xl flex'
-                                        ><FaRegStar className='mr-1.5 text-gray-600' /> Jour {i + 1} :</strong>
+                                        ><FaRegStar className='mr-1.5 text-gray-600' /> {evant.type === "sorties" && `Jour ${i + 1} :`}  </strong>
                                         <ul
-                                            className='list-disc pl-10'
+                                            className='list-disc '
                                         >
-                                            {e.map((q, j) => (
-                                                <li key={j}>{q}</li>
-                                            ))}
+                                            {e}
                                         </ul>
                                     </div>
                                 ))}
@@ -227,13 +226,13 @@ const Evant = () => {
                             >
 
                                 <li>
-                                    <strong>Adulte (chambre double ou triple) : </strong> {evant.Tarifs.adulet} Da
+                                    <strong>Adulte (chambre double ou triple) : </strong> {evant.price} Da
                                 </li>
                                 <li>
-                                    <strong>Enfant (6-12 ans) : </strong> {evant.Tarifs.kid} Da
+                                    <strong>Enfant (6-12 ans) : </strong> {evant.price - (evant.price * 0.1)} Da
                                 </li>
                                 <li>
-                                    <strong>Enfant (-6 ans, sans siège) </strong> {evant.Tarifs.baby} Da
+                                    <strong>Enfant (-6 ans, sans siège) </strong> 0
                                 </li>
                             </ul>
                         </>
