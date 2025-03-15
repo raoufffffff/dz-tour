@@ -67,7 +67,7 @@ const MyTicket = () => {
                                         {ticket.evant}
                                     </h2>
                                     <p className="text-gray-600 text-sm">
-                                        Date: {ticket.date}
+                                        Date: {ticket.date.day}/{ticket.date.month}/{ticket.date.year}
                                     </p>
                                     <p className="text-gray-600 text-sm">
                                         prix: {ticket.price} DA

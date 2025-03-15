@@ -39,8 +39,11 @@ const Join = ({ hide, price, id, name, img, userid }) => {
             const response = await axios.post(`https://dz-tour-api.vercel.app/join/${id}`, {
                 ...user,
                 price: finalPrice,
+                date: `${user.date.year}-${user.date.month}-${user.date.day}`
             });
             setResult(response.data.result);
+            console.log(response.data);
+
             setDone(true);
         } catch (error) {
             console.error(error);

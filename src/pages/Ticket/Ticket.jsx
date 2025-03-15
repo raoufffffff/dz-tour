@@ -89,7 +89,7 @@ const Ticket = () => {
                     <div className="flex justify-between items-center">
                         <span className="font-semibold text-gray-700">Date :</span>
                         <span className="text-gray-800">
-                            {ticket.date}
+                            {ticket.date.day}/{ticket.date.month}/{ticket.date.year}
                         </span>
                     </div>
                     <div className="flex justify-between items-center">
